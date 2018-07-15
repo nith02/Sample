@@ -26,7 +26,7 @@ public class MyService extends Service
 
     @Override
     public int onStartCommand(
-            Intent intent, int flags, int startId )
+            Intent intent, int flags, final int startId )
     {
         new Thread( new Runnable()
         {
@@ -35,7 +35,7 @@ public class MyService extends Service
             {
                 while ( true )
                 {
-                    Log.e( "nith", "MyService alive" );
+                    Log.e( "nith", "MyService alive " + startId );
                     sleep( 2000 );
                 }
             }

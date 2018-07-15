@@ -10,7 +10,7 @@ public class MyReceiver extends BroadcastReceiver
     @Override
     public void onReceive( Context context, Intent intent )
     {
-        Log.e( "nith", "onReceive" );
+        Log.e( "nith", "onReceive " + intent.getAction() );
         Util.scheduleJob( context );
     }
 }
