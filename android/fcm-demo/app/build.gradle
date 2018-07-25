@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     buildToolsVersion "27.0.2"
     defaultConfig {
-        applicationId "com.tolka.fcm_demo"
+        applicationId "com.example.fcm_demo"
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
