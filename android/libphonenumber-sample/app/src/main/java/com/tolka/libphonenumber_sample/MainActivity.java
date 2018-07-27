@@ -36,7 +36,8 @@ public class MainActivity extends AppCompatActivity
                 {
                     Phonenumber.PhoneNumber phone = phoneUtil.parse( strPhone, "PH" );
                     boolean bValid = phoneUtil.isValidNumber( phone );
-                    mResult.setText( phone.toString() + " " + bValid );
+                    String strRegion = phoneUtil.getRegionCodeForCountryCode( phone.getCountryCode() );
+                    mResult.setText( phone.toString() + " " + strRegion + " " + bValid );
                 }
                 catch ( NumberParseException e )
                 {
