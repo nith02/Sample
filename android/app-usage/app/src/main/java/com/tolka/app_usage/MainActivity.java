@@ -1,59 +1,102 @@
 package com.tolka.app_usage;
 
+import android.app.ActivityManager;
+import android.app.AppOpsManager;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
 {
+    private static final int MY_PERMISSIONS_REQUEST_PACKAGE_USAGE_STATS = 1101;
 
     @Override
     protected void onCreate( Bundle savedInstanceState )
     {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
-        Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar );
+        Toolbar toolbar = findViewById( R.id.toolbar );
         setSupportActionBar( toolbar );
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById( R.id.fab );
+        FloatingActionButton fab = findViewById( R.id.fab );
         fab.setOnClickListener( new View.OnClickListener()
         {
             @Override
             public void onClick( View view )
             {
-                Snackbar.make( view, "Replace with your own action", Snackbar.LENGTH_LONG )
-                        .setAction( "Action", null ).show();
+                getAppUsage();
             }
         } );
     }
 
-    @Override
-    public boolean onCreateOptionsMenu( Menu menu )
+    private void getAppUsage()
     {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate( R.menu.menu_main, menu );
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected( MenuItem item )
-    {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if ( id == R.id.action_settings )
+        ActivityManager mActivityManager = (ActivityManager) getSystemService( Context.ACTIVITY_SERVICE );
+        List<ActivityManager.RunningAppProcessInfo> process = mActivityManager.getRunningAppProcesses();
+        for ( ActivityManager.RunningAppProcessInfo info : process )
         {
-            return true;
+            Log.i( "nith", "running process " + info.processName );
         }
 
-        return super.onOptionsItemSelected( item );
+        if ( !hasPermission() )
+        {
+            startActivityForResult(
+                    new Intent( Settings.ACTION_USAGE_ACCESS_SETTINGS ),
+                    MY_PERMISSIONS_REQUEST_PACKAGE_USAGE_STATS );
+            return;
+        }
+
+        getTopApp( this );
     }
+
+    private boolean hasPermission()
+    {
+        AppOpsManager appOps = (AppOpsManager) getSystemService( Context.APP_OPS_SERVICE );
+        int mode = appOps.checkOpNoThrow( AppOpsManager.OPSTR_GET_USAGE_STATS, android.os.Process.myUid(), getPackageName() );
+        return mode == AppOpsManager.MODE_ALLOWED;
+    }
+
+    private void getTopApp( Context context )
+    {
+        UsageStatsManager manager = (UsageStatsManager) context.getSystemService( Context.USAGE_STATS_SERVICE );
+        if ( manager != null )
+        {
+            long now = System.currentTimeMillis();
+            List<UsageStats> stats = manager.queryUsageStats( UsageStatsManager.INTERVAL_BEST, now - 60 * 1000, now );
+            Log.i( "nith", "Running app number in last 60 seconds : " + stats.size() );
+
+            String topActivity = "";
+            if ( !stats.isEmpty() )
+            {
+                int j = 0;
+                for ( int i = 0; i < stats.size(); i++ )
+                {
+                    if ( stats.get( i ).getPackageName().contains( "team" ) )
+                    {
+                        Log.i( "nith", "running app " + stats.get( i ).getPackageName() + " last time used " + stats.get( i ).getLastTimeUsed() );
+                        Log.i( "nith", "running app " + stats.get( i ).getPackageName() + " last timestamp " + stats.get( i ).getLastTimeStamp() );
+                        Log.i( "nith", "running app " + stats.get( i ).getPackageName() + " total time in foreground " + stats.get( i ).getTotalTimeInForeground() );
+                    }
+
+                    if ( stats.get( i ).getLastTimeUsed() > stats.get( j ).getLastTimeUsed() )
+                    {
+                        j = i;
+                    }
+                }
+                topActivity = stats.get( j ).getPackageName();
+            }
+            Log.i( "nith", "Top running app is : " + topActivity );
+        }
+    }
+
 }
