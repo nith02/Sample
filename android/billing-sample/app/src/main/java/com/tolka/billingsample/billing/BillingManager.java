@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.billingmodule.billing;
+package com.tolka.billingsample.billing;
 
 import android.app.Activity;
 import android.content.Context;
@@ -455,7 +455,7 @@ public class BillingManager implements PurchasesUpdatedListener
 
         try
         {
-            return com.example.billingmodule.billing.Security.verifyPurchase( BASE_64_ENCODED_PUBLIC_KEY, signedData, signature );
+            return com.tolka.billingsample.billing.Security.verifyPurchase( BASE_64_ENCODED_PUBLIC_KEY, signedData, signature );
         }
         catch ( IOException e )
         {

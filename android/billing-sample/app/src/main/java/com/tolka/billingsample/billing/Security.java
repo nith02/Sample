@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.billingmodule.billing;
+package com.tolka.billingsample.billing;
 
 import android.text.TextUtils;
 import android.util.Base64;

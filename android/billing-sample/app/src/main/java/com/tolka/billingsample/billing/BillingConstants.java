@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.billingmodule.billing;
+package com.tolka.billingsample.billing;
 
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClient.SkuType;
