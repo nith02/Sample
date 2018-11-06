@@ -81,7 +81,7 @@ public class BillingManager implements PurchasesUpdatedListener
      * want to make it easy for an attacker to replace the public key with one
      * of their own and then fake messages from the server.
      */
-    private static final String BASE_64_ENCODED_PUBLIC_KEY = "CONSTRUCT_YOUR_KEY_AND_PLACE_IT_HERE";
+    private static final String BASE_64_ENCODED_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgSFhnGnJ2dDW6d1jFoia/7EpQ2Gs+uMxNEfukmhS0A03xlAy0drW6D17XeYlMN4TT3w5SV+gufXLBv31VMEvE64t2gCg8H9G8udjTxHx32OkDJ3Vi8paTXnlCMaU/jGB5EBvBOmiZrhCPls53JlXaOK2/4nQc1TuO84ID9CacXjA3KAm3NQ/W82yAH2kbSmfd0HY9+3ucAFuv5T0WSLfin+KNZpCa1thmPrpwN6QafqDRf08vHWtf5ICd8bCr+klXmrKhYrALIX07E+ETR4vwddpGP3BWydlCabqDTUFTYKbYhtTwLbEca+99foGF9uPwdnhDR82QHbSigcOKjkepQIDAQAB";
 
     /**
      * Listener to the updates that happen when purchases list was updated or consumption of the
