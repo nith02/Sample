@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">billingsample</string>
     <string name="action_settings">Settings</string>
+    <string name="buy_gas">Buy gas</string>
+    <string name="buy_premium">Buy premium</string>
+    <string name="subscribe_monthly">Subscribe monthly</string>
+    <string name="subscribe_yearly">SubScribe yearly</string>
 </resources>

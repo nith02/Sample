@@ -1,11 +1,11 @@
 package com.tolka.billingsample;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.Purchase;
@@ -20,6 +20,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements BillingManager.BillingUpdatesListener
 {
     private BillingManager mBillingManager;
+    private boolean mSubscribeMonthly;
+    private boolean mSubscribeYearly;
 
     @Override
     protected void onCreate( Bundle savedInstanceState )
@@ -31,15 +33,69 @@ public class MainActivity extends AppCompatActivity implements BillingManager.Bi
 
         mBillingManager = new BillingManager( this, this );
 
-        FloatingActionButton fab = findViewById( R.id.fab );
-        fab.setOnClickListener( new View.OnClickListener()
         {
-            @Override
-            public void onClick( View view )
+            Button btn = findViewById( R.id.btn_gas );
+            btn.setOnClickListener( new View.OnClickListener()
             {
-                mBillingManager.initiatePurchaseFlow( BillingConstants.SKU_GAS, BillingClient.SkuType.INAPP );
-            }
-        } );
+                @Override
+                public void onClick( View view )
+                {
+                    mBillingManager.initiatePurchaseFlow( BillingConstants.SKU_GAS, BillingClient.SkuType.INAPP );
+                }
+            } );
+        }
+        {
+            Button btn = findViewById( R.id.btn_premium );
+            btn.setOnClickListener( new View.OnClickListener()
+            {
+                @Override
+                public void onClick( View view )
+                {
+                    mBillingManager.initiatePurchaseFlow( BillingConstants.SKU_PREMIUM, BillingClient.SkuType.INAPP );
+                }
+            } );
+        }
+        {
+            Button btn = findViewById( R.id.btn_monthly );
+            btn.setOnClickListener( new View.OnClickListener()
+            {
+                @Override
+                public void onClick( View view )
+                {
+                    if ( mSubscribeYearly )
+                    {
+                        ArrayList<String> oldSku = new ArrayList<>();
+                        oldSku.add( BillingConstants.SKU_GOLD_YEARLY );
+                        mBillingManager.initiatePurchaseFlow( BillingConstants.SKU_GOLD_MONTHLY, oldSku, BillingClient.SkuType.SUBS );
+                    }
+                    else
+                    {
+                        mBillingManager.initiatePurchaseFlow( BillingConstants.SKU_GOLD_MONTHLY, null, BillingClient.SkuType.SUBS );
+                    }
+                }
+            } );
+        }
+        {
+            Button btn = findViewById( R.id.btn_yearly );
+            btn.setOnClickListener( new View.OnClickListener()
+            {
+                @Override
+                public void onClick( View view )
+                {
+                    if ( mSubscribeMonthly )
+                    {
+                        ArrayList<String> oldSku = new ArrayList<>();
+                        oldSku.add( BillingConstants.SKU_GOLD_MONTHLY );
+                        mBillingManager.initiatePurchaseFlow( BillingConstants.SKU_GOLD_YEARLY, oldSku, BillingClient.SkuType.SUBS );
+                    }
+                    else
+                    {
+                        mBillingManager.initiatePurchaseFlow( BillingConstants.SKU_GOLD_YEARLY, null, BillingClient.SkuType.SUBS );
+
+                    }
+                }
+            } );
+        }
     }
 
     @Override
@@ -91,11 +147,26 @@ public class MainActivity extends AppCompatActivity implements BillingManager.Bi
     @Override
     public void onPurchasesUpdated( List<Purchase> purchases )
     {
+        Log.e( "nith", "onPurchasesUpdated" );
+        mSubscribeMonthly = false;
+        mSubscribeYearly = false;
+
         for ( Purchase purchase : purchases )
         {
             Log.e( "nith", purchase.getOriginalJson() );
             Log.e( "nith", purchase.getSignature() );
-            mBillingManager.consumeAsync( purchase.getPurchaseToken() );
+            if ( purchase.getSku().equals( BillingConstants.SKU_GAS ) || purchase.getSku().equals( BillingConstants.SKU_PREMIUM ) )
+            {
+                mBillingManager.consumeAsync( purchase.getPurchaseToken() );
+            }
+            else if ( purchase.getSku().equals( BillingConstants.SKU_GOLD_MONTHLY ) )
+            {
+                mSubscribeMonthly = true;
+            }
+            else if ( purchase.getSku().equals( BillingConstants.SKU_GOLD_YEARLY ) )
+            {
+                mSubscribeYearly = true;
+            }
         }
     }
 }
