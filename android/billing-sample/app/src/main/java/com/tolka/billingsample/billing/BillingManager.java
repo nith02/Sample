@@ -138,6 +138,7 @@ public class BillingManager implements PurchasesUpdatedListener
     {
         if ( resultCode == BillingResponse.OK )
         {
+            mPurchases.clear();
             for ( Purchase purchase : purchases )
             {
                 handlePurchase( purchase );
