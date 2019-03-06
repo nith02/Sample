@@ -18,6 +18,16 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".server.ServerActivity"
+            android:label="server"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
+        <activity
+            android:name=".client.ClientActivity"
+            android:label="client"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
     </application>
 
 </manifest>

@@ -26,17 +26,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         >
-        <Button
-            android:id="@+id/btn_server"
-            android:text="server"
-            android:layout_width="120dp"
-            android:layout_height="40dp"
-            />
-        <Button
-            android:id="@+id/btn_client"
-            android:text="client"
-            android:layout_width="120dp"
-            android:layout_height="40dp"
+        <TextView
+            android:id="@+id/tv_status"
+            android:textSize="24sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             />
     </LinearLayout>
 
