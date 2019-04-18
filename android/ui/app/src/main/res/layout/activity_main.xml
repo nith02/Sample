@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tolka.ui_test.MainActivity"
+    android:orientation="vertical"
+    android:padding="15dp"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <Button
+            android:id="@+id/btnConstraint"
+            android:text="Constraint Layout"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            />
+        <Button
+            android:id="@+id/btnWaterfall"
+            android:text="Waterfall Layout"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            />
+        <Button
+            android:id="@+id/btnCoordinator"
+            android:text="Coordinator Layout"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <Button
+            android:id="@+id/btnDrawer"
+            android:text="Drawer Layout"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            />
+        <Button
+            android:id="@+id/btnSwipeRefresh"
+            android:text="SwipeRefresh Layout"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            />
+        <Button
+            android:id="@+id/btnBottomNavigate"
+            android:text="BottomNavigate Layout"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <Button
+            android:id="@+id/btnTabbed"
+            android:text="Tabbed Layout"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            />
+        <Button
+            android:id="@+id/btnFullscreen"
+            android:text="Fullscreen Layout"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            />
+        <Button
+            android:id="@+id/btnItemDetail"
+            android:text="ItemDetail Layout"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <Button
+            android:id="@+id/btnViewpager"
+            android:text="Viewpager Layout"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            />
+        <Button
+            android:id="@+id/btnBasic"
+            android:text="Basic Layout"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            />
+        <Button
+            android:id="@+id/btnLogin"
+            android:text="Login Layout"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <Button
+            android:id="@+id/btnSetting"
+            android:text="Setting Layout"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            />
+        <Button
+            android:id="@+id/btnProgressbars"
+            android:text="ProgressBars"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            />
+    </LinearLayout>
+
+</LinearLayout>
