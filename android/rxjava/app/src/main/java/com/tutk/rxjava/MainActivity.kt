@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.Observable
+import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
@@ -15,6 +16,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
+import java.lang.Thread.sleep
 import java.util.concurrent.TimeUnit
 
 
@@ -25,12 +27,35 @@ interface Service {
     fun search(@Query("q") text: String): Call<String>
 }
 
+class RxView : Observable<Int>() {
+    var mObserver: Observer<in Int>? = null
+
+    override fun subscribeActual(observer: Observer<in Int>?) {
+        mObserver = observer
+    }
+
+    fun click(i: Int) {
+        mObserver?.onNext(i)
+    }
+}
+
 class MainActivity : AppCompatActivity() {
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val rxView = RxView()
+        rxView.debounce(1, TimeUnit.SECONDS)
+            .subscribe {
+                Log.e(TAG, "rxView click $it")
+            }
+
+        for (i in 1..5) {
+            sleep(800)
+            rxView.click(i)
+        }
 
         Observable.create<Response<String>> {
             val retrofit = Retrofit.Builder()
