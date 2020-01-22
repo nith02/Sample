@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.Observable
 import io.reactivex.Observer
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
@@ -13,6 +14,7 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -25,6 +27,10 @@ const val TAG = "MainActivity"
 interface Service {
     @GET("search")
     fun search(@Query("q") text: String): Call<String>
+
+    @GET("search")
+    fun searchRx(@Query("q") text: String): Observable<String>
+
 }
 
 class RxView : Observable<Int>() {
@@ -39,6 +45,7 @@ class RxView : Observable<Int>() {
     }
 }
 
+@Suppress("NAME_SHADOWING")
 class MainActivity : AppCompatActivity() {
 
     @SuppressLint("CheckResult")
@@ -84,6 +91,18 @@ class MainActivity : AppCompatActivity() {
                 Log.e(TAG, "search success $it")
             }
 
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://www.google.com/")
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build()
+        val service = retrofit.create(Service::class.java)
+        service.searchRx("dog")
+            .subscribeOn(Schedulers.io())
+            .subscribe {
+                Log.e(TAG, "search dog ret $it")
+            }
+        
         // onNext not emit if in io schedule
         Observable.create<String> {
             Log.e(TAG, "emit onNext")
